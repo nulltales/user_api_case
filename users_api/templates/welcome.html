@@ -39,6 +39,9 @@
           <div class="help-block"></div>
           <p>In order to browse the API, and the API Schema, you need to make sure your browser is sending that "ApiKey" header.</p>
           <p>Install <a href="https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj" target="_blank"> ModHeader Chrome plugin</a> and add the "Authorization" before continuing.</p>
+          <p>The initial version used the correct "Authorization" header, but due to aws-lambda problems, it is not possible to use
+          "Authorization" header together with static files hosted on S3. The real thing would use "Authorization" header.</p>
+
           <div class="help-block"></div>
           <div class="help-block"></div>
           <div class="btn-group" role="group">
