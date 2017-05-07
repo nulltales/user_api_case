@@ -26,3 +26,27 @@ def api_client():
     from rest_framework.test import APIClient
 
     return APIClient()
+
+
+@pytest.fixture
+def freeze_time():
+    """
+    freeze_time instance
+    Useful for testing stuff depending on datetime.utcnow()
+    see https://github.com/spulec/freezegun
+    """
+    from freezegun import freeze_time
+
+    return freeze_time
+
+
+@pytest.fixture
+def mommy():
+    """
+    ModelMommy instance
+    see http://model-mommy.readthedocs.org/en/latest/index.html
+    """
+
+    from model_mommy import mommy
+
+    return mommy

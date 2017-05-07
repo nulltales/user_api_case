@@ -4,3 +4,7 @@ demo:
   s3_bucket: jtsoi-lambda-users-api
   django_settings: users_api.settings
   aws_region: eu-west-1
+  certificate_arn: arn:aws:acm:us-east-1:018741546612:certificate/c1516f87-084d-488d-9afa-6a3e9bea358f
+  domain: users-api.nulltales.com
+  environment_variables:
+    IS_FREEMAN: 'true'

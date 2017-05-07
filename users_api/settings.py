@@ -14,6 +14,7 @@ import os
 import environ
 
 root = environ.Path(__file__) - 2
+
 env = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -34,7 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
 
+    'storages',
+    'crispy_forms',
+    'django_filters',
     'rest_framework',
+    'rest_framework_filters',
     'rest_framework_swagger',
     'users_api',
 ]
@@ -43,23 +48,33 @@ MIDDLEWARE = []
 
 ROOT_URLCONF = 'users_api.urls'
 
+IS_ON_LAMBDA = env.bool('IS_FREEMAN', default=False)
+_db_file = root('db.sqlite3')
+if IS_ON_LAMBDA:
+    from shutil import copyfile
+
+    src = root('db.sqlite3')
+    dst = '/tmp/db.sqlite3'
+    copyfile(src, dst)
+    _db_file = dst
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'NAME': _db_file,
     }
 }
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
         'APP_DIRS': True,
     },
 ]
 
 WSGI_APPLICATION = 'users_api.wsgi.application'
 
-STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -72,12 +87,21 @@ SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {
             "type": "apiKey",
-            "name": "api_key",
+            "name": "ApiKey",
             "in": "header"
         }
     },
     'LOGIN_URL': None,
     'LOGOUT_URL': None,
-    'JSON_EDITOR': True,
     'SHOW_REQUEST_HEADERS': True,
 }
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', None)
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', None)
+AWS_AUTO_CREATE_BUCKET = True
+AWS_STORAGE_BUCKET_NAME = 'jtsoi-lambda-users-api'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+STATICFILES_LOCATION = 'static'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+STATICFILES_STORAGE = 'users_api.storage.StaticStorage'
