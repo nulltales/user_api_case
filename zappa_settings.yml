@@ -1,0 +1,6 @@
+---
+
+demo:
+  s3_bucket: jtsoi-lambda-users-api
+  django_settings: users_api.settings
+  aws_region: eu-west-1
