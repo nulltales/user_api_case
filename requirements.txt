@@ -1,5 +1,4 @@
 boto==2.43.0
-boto3==1.4.1
 django==1.11
 django-crispy-forms==1.6.1
 django-environ==0.4.0
