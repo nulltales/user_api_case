@@ -25,7 +25,8 @@ make serve                         # to run the local development server
 make install
 source .venv/bin/activate          # Zappa requires this.
 zappa certify demo                 # creates SSL endpoint
-zappa manage demo "collectstatic"  # uploads static files to S3 see settings.py for required env. vars.
+make deploystatic                  # uploads static files to S3
+                                   # you will need valid AWS_ACCESS_KEY_ID  & AWS_SECRET_ACCESS_KEY in your env.
 zappa deploy demo                  # deploys the lambda
 zappa update demo                  # updates deployed lambda code
 
