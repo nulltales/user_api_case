@@ -13,6 +13,10 @@ $(PYTHON_BIN)/activate: requirements.txt
 	$(PYTHON_BIN)/pip install -Ur requirements.txt
 	touch $(PYTHON_BIN)/activate
 
+fixtures:
+	$(PYTHON_BIN)/python manage.py migrate
+	$(PYTHON_BIN)/python manage.py populate
+
 test:
 	$(PYTHON_BIN)/pytest
 
