@@ -51,8 +51,8 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     delete:
     Delete a specific user.
     """
-    authentication_classes = [APIKeyAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = []
+    permission_classes = [AllowAny]
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
@@ -60,7 +60,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 class SwaggerSchemaView(APIView):
     _ignore_model_permissions = True
     exclude_from_schema = True
-    authentication_classes = [APIKeyAuthentication]
+    authentication_classes = []
     permission_classes = [AllowAny]
     renderer_classes = [
         renderers.OpenAPIRenderer,
